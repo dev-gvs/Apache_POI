@@ -32,6 +32,7 @@ public class ReceiptWord extends javax.swing.JFrame {
 
             // Замена в переменной doc данных
             try {
+                doc.getRange().replaceText("$НОМЕРполучателя", jTextFieldNumber.getText());
                 doc.getRange().replaceText("$ФИОплательщика", jTextFieldName.getText());
                 doc.getRange().replaceText("$АДРЕСплательщика", jTextFieldAddress.getText());
             } catch (Exception ex) {
@@ -61,6 +62,7 @@ public class ReceiptWord extends javax.swing.JFrame {
         jTextFieldName = new javax.swing.JTextField();
         jTextFieldAddress = new javax.swing.JTextField();
         jButtonSave = new javax.swing.JButton();
+        jTextFieldNumber = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -87,6 +89,10 @@ public class ReceiptWord extends javax.swing.JFrame {
         });
         getContentPane().add(jButtonSave);
         jButtonSave.setBounds(20, 260, 260, 80);
+
+        jTextFieldNumber.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        getContentPane().add(jTextFieldNumber);
+        jTextFieldNumber.setBounds(630, 190, 400, 25);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/msword/receipt.png"))); // NOI18N
         getContentPane().add(jLabel1);
@@ -150,5 +156,6 @@ public class ReceiptWord extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JTextField jTextFieldAddress;
     private javax.swing.JTextField jTextFieldName;
+    private javax.swing.JTextField jTextFieldNumber;
     // End of variables declaration//GEN-END:variables
 }
