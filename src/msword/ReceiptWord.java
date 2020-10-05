@@ -81,7 +81,8 @@ public class ReceiptWord extends javax.swing.JFrame {
         jTextFieldAddress.setBounds(500, 300, 530, 25);
 
         jButtonSave.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jButtonSave.setText("Сохранить в Word");
+        jButtonSave.setText("Экспортировать в .doc");
+        jButtonSave.setToolTipText("");
         jButtonSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSaveActionPerformed(evt);
