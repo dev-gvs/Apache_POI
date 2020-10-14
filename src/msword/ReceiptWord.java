@@ -5,11 +5,14 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hwpf.HWPFDocument;
 
 public class ReceiptWord extends javax.swing.JFrame {
+    
+    private static final Logger logger = Logger.getLogger(ReceiptWord.class);
 
     String dir;
     Runnable saveDocTask;
@@ -20,6 +23,7 @@ public class ReceiptWord extends javax.swing.JFrame {
      */
     public ReceiptWord() {
         initComponents();
+        logger.debug("Initialized components");
 
         this.dir = new File(".").getAbsoluteFile().getParentFile().getAbsolutePath()
                 + System.getProperty("file.separator");
@@ -29,27 +33,32 @@ public class ReceiptWord extends javax.swing.JFrame {
             HWPFDocument doc = null;
             try (FileInputStream fis = new FileInputStream(dir + "receipt_template.doc")) {
                 doc = new HWPFDocument(fis);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                System.err.println("Error template!");
+                logger.debug("Read .doc template");
+            } catch (Exception e) {
+                logger.error(e);
             }
 
             // Замена в переменной doc данных
             try {
                 doc.getRange().replaceText("$НОМЕРполучателя", jTextFieldNumber.getText());
+                logger.debug("Replaced '$НОМЕРполучателя' with '" + jTextFieldNumber.getText() + "'");
                 doc.getRange().replaceText("$ФИОплательщика", jTextFieldName.getText());
+                logger.debug("Replaced '$ФИОплательщика' with '" + jTextFieldName.getText() + "'");
                 doc.getRange().replaceText("$АДРЕСплательщика", jTextFieldAddress.getText());
-            } catch (Exception ex) {
-                System.err.println("Error replaceText!");
+                logger.debug("Replaced '$АДРЕСплательщика' with '" + jTextFieldAddress.getText() + "'");
+            } catch (Exception e) {
+                logger.error(e);
             }
 
             // Сохранение переменной doc в новый файл
             try (FileOutputStream fos = new FileOutputStream(dir + "receipt.doc")) {
                 doc.write(fos);
+                logger.debug("Wrote result to receipt.doc");
                 // Открытие файла внешней программой
                 Desktop.getDesktop().open(new File(dir + "receipt.doc"));
-            } catch (Exception ex) {
-                System.err.println("Error getDesktop!");
+                logger.debug("Opened receipt.doc");
+            } catch (Exception e) {
+                logger.error(e);
             }
         };
 
@@ -59,9 +68,9 @@ public class ReceiptWord extends javax.swing.JFrame {
 
             try (FileInputStream fis = new FileInputStream(dir + "receipt_template.xls")) {
                 xls = new HSSFWorkbook(fis);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                System.err.println("Error template!");
+                logger.debug("Read .xls template");
+            } catch (Exception e) {
+                logger.error(e);
             }
 
             // Первый лист документа
@@ -71,24 +80,32 @@ public class ReceiptWord extends javax.swing.JFrame {
             // Замена в переменной doc данных
             try {
                 sheet.getRow(1).getCell(2).setCellValue(jTextFieldXlsReceiverFIO.getText());
+                logger.debug("Added '" + jTextFieldXlsReceiverFIO.getText() + "' to sheet at (1, 2)");
                 sheet.getRow(12).getCell(3).setCellValue(jTextFieldXlsName.getText());
+                logger.debug("Added '" + jTextFieldXlsName.getText() + "' to sheet at (12, 3)");
                 sheet.getRow(13).getCell(3).setCellValue(jTextFieldXlsAddress.getText());
+                logger.debug("Added '" + jTextFieldXlsAddress.getText() + "' to sheet at (13, 3)");
                 sheet.getRow(14).getCell(3).setCellValue(jTextFieldXlsSum.getText());
+                logger.debug("Added '" + jTextFieldXlsSum.getText() + "' to sheet at (14, 3)");
                 sheet.getRow(14).getCell(8).setCellValue(jTextFieldXlsSumUsl.getText());
+                logger.debug("Added '" + jTextFieldXlsSumUsl.getText() + "' to sheet at (14, 8)");
                 int sum = Integer.parseInt(jTextFieldXlsSum.getText()) +
                         Integer.parseInt(jTextFieldXlsSumUsl.getText());
                 sheet.getRow(15).getCell(3).setCellValue(sum);
-            } catch (Exception ex) {
-                System.err.println("Error replaceText!");
+                logger.debug("Added '" + sum + "' to sheet at (15, 3)");
+            } catch (Exception e) {
+                logger.error(e);
             }
 
             // Сохранение переменной doc в новый файл
             try (FileOutputStream fos = new FileOutputStream(dir + "receipt.xls")) {
                 xls.write(fos);
+                logger.debug("Wrote result to receipt.xls");
                 // Открытие файла внешней программой
                 Desktop.getDesktop().open(new File(dir + "receipt.xls"));
-            } catch (Exception ex) {
-                System.err.println("Error getDesktop!");
+                logger.debug("Opened receipt.xls");
+            } catch (Exception e) {
+                logger.error(e);
             }
         };
     }
@@ -206,10 +223,13 @@ public class ReceiptWord extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveActionPerformed
+        logger.debug("Export to .doc button has been pressed");
+        
         // Устанавливаем иконку курсора в "загрузка"
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
         // Запускаем сохранение в файл в отдельном потоке
+        logger.debug("Starting saveDocTask");
         new Thread(saveDocTask).start();
 
         // Восстанавливаем стандартный курсор
@@ -221,10 +241,12 @@ public class ReceiptWord extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldAddressActionPerformed
 
     private void jButtonXlsSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonXlsSaveActionPerformed
+        logger.debug("Export to .xls button has been pressed");
         // Устанавливаем иконку курсора в "загрузка"
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
         // Запускаем сохранение в файл в отдельном потоке
+        logger.debug("Starting saveXlsTask");
         new Thread(saveXlsTask).start();
 
         // Восстанавливаем стандартный курсор
