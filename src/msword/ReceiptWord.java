@@ -159,7 +159,7 @@ public class ReceiptWord extends javax.swing.JFrame {
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
         // Запускаем сохранение в файл в отдельном потоке
-        Saver.saveDoc(jTextFieldNumber.getText(), jTextFieldName.getText(), jTextFieldAddress.getText());
+        Export.toDoc(jTextFieldNumber.getText(), jTextFieldName.getText(), jTextFieldAddress.getText());
 
         // Восстанавливаем стандартный курсор
         setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -176,7 +176,7 @@ public class ReceiptWord extends javax.swing.JFrame {
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
         // Запускаем сохранение в файл в отдельном потоке
-        Saver.saveXls(
+        Export.toXls(
                 jTextFieldXlsReceiverFIO.getText(), jTextFieldXlsName.getText(),
                 jTextFieldXlsAddress.getText(), jTextFieldXlsSum.getText(),
                 jTextFieldXlsSumUsl.getText());
@@ -192,7 +192,7 @@ public class ReceiptWord extends javax.swing.JFrame {
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
         // Запускаем сохранение в файл в отдельном потоке
-        Saver.saveDocx(jTextFieldNumber.getText(), jTextFieldName.getText(), jTextFieldAddress.getText());
+        Export.toDocx(jTextFieldNumber.getText(), jTextFieldName.getText(), jTextFieldAddress.getText());
 
         // Восстанавливаем стандартный курсор
         setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -205,7 +205,7 @@ public class ReceiptWord extends javax.swing.JFrame {
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
         // Запускаем сохранение в файл в отдельном потоке
-        Saver.saveXlsx(
+        Export.toXlsx(
                 jTextFieldXlsReceiverFIO.getText(), jTextFieldXlsName.getText(),
                 jTextFieldXlsAddress.getText(), jTextFieldXlsSum.getText(),
                 jTextFieldXlsSumUsl.getText());

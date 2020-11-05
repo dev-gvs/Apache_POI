@@ -18,14 +18,14 @@ import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
-public class Saver {
+public class Export {
 
     private static final String dir
             = new File(".").getAbsoluteFile().getParentFile().getAbsolutePath()
             + System.getProperty("file.separator");
-    private static final Logger logger = Logger.getLogger(Saver.class);
+    private static final Logger logger = Logger.getLogger(Export.class);
 
-    public static void saveDoc(String number, String fio, String address) {
+    public static void toDoc(String number, String fio, String address) {
         new Thread(() -> {
             // Чтение из шаблона в переменную doc
             HWPFDocument doc = null;
@@ -61,7 +61,7 @@ public class Saver {
         }).start();
     }
 
-    public static void saveXls(String fio, String name, String address, String sum, String sumUsl) {
+    public static void toXls(String fio, String name, String address, String sum, String sumUsl) {
         // Чтение из шаблона в переменную xls
         HSSFWorkbook xls = null;
 
@@ -107,7 +107,7 @@ public class Saver {
         }
     }
 
-    public static void saveDocx(String number, String fio, String address) {
+    public static void toDocx(String number, String fio, String address) {
         new Thread(() -> {
             // Чтение из шаблона в переменную doc
             XWPFDocument docx = null;
@@ -143,7 +143,7 @@ public class Saver {
         }).start();
     }
 
-    public static void saveXlsx(String fio, String name, String address, String sum, String sumUsl) {
+    public static void toXlsx(String fio, String name, String address, String sum, String sumUsl) {
         // Чтение из шаблона в переменную xlsx
         XSSFWorkbook xlsx = null;
 
